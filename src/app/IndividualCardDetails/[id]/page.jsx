@@ -1,15 +1,30 @@
 import Image from "next/image";
 import { CalendarDays, Bookmark } from "lucide-react";
 
-export default function IndividualCardDetails() {
+const getWorkoutDetails = async (id) => {
+  try {
+    const response = await fetch(
+      `https://api.abcz.workers.dev/api/fitlog/${id}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("Failed to load workouts. Please try again later.");
+  }
+};
+
+export default async function IndividualCardDetails({ params }) {
+  const { id } = await params;
+  const workout = await getWorkoutDetails(id);
+
   return (
     <main className="min-h-screen bg-[#0d1015] px-5 py-8 text-white md:px-10 lg:px-16">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2 lg:gap-10">
-        {/* ================= LEFT: IMAGE ================= */}
+        {/*LEFT: IMAGE*/}
         <div className="overflow-hidden rounded-xl">
           <Image
-            src="/exercise.jpg"
-            alt="Barbell bench press"
+            src={workout.image}
+            alt={workout.name}
             width={700}
             height={700}
             className="h-full min-h-100 w-full object-cover"
@@ -19,36 +34,39 @@ export default function IndividualCardDetails() {
         {/* ================= RIGHT: DETAILS ================= */}
         <div className="flex flex-col">
           {/* Title */}
-          <h1 className="text-3xl font-extrabold uppercase tracking-tight md:text-4xl">
-            Barbell Bench Press
+          <h1 className="text-3xl font-extrabold font-oswald uppercase tracking-tight md:text-4xl">
+            {workout.name}
           </h1>
 
           {/* Description */}
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
-            A compound press that builds chest thickness, triceps, and pressing
-            power from a stable bench.
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-400 font-inter">
+            {workout.description}
           </p>
 
           {/* Muscle Tags */}
           <div className="mt-4 flex gap-2">
-            <span className="rounded-full bg-lime-400 px-3 py-1 text-xs font-medium text-black">
-              Chest
-            </span>
-
-            <span className="rounded-full bg-lime-400 px-3 py-1 text-xs font-medium text-black">
-              Arms
-            </span>
+            {workout.muscleGroups.map((muscle) => {
+              return (
+                <span
+                  key={muscle}
+                  className=" font-inter rounded-full bg-lime-400 px-3 py-1 text-[11px] font-bold uppercase text-black"
+                >
+                  {" "}
+                  {muscle}{" "}
+                </span>
+              );
+            })}
           </div>
 
           {/* ================= INFORMATION BOX ================= */}
-          <div className="mt-5 overflow-hidden rounded-xl border border-gray-800 bg-[#151a22]">
+          <div className="mt-5 overflow-hidden rounded-xl border border-gray-800 bg-[#151a22] font-inter">
             {/* Equipment */}
             <div className="flex items-center justify-between border-b border-gray-800 px-4 py-4">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">
                 Equipment
               </span>
 
-              <span className="text-xs text-gray-200">Barbell, Bench</span>
+              <span className="text-xs text-gray-200">{workout.equipment}</span>
             </div>
 
             {/* Difficulty */}
@@ -57,7 +75,9 @@ export default function IndividualCardDetails() {
                 Difficulty
               </span>
 
-              <span className="text-xs text-gray-200">Intermediate</span>
+              <span className="text-xs text-gray-200">
+                {workout.difficulty}
+              </span>
             </div>
 
             {/* Sets */}
@@ -66,7 +86,7 @@ export default function IndividualCardDetails() {
                 Sets
               </span>
 
-              <span className="text-xs text-gray-200">4</span>
+              <span className="text-xs text-gray-200">{workout.sets}</span>
             </div>
 
             {/* Reps */}
@@ -75,7 +95,7 @@ export default function IndividualCardDetails() {
                 Reps
               </span>
 
-              <span className="text-xs text-gray-200">6-8</span>
+              <span className="text-xs text-gray-200">{workout.reps}</span>
             </div>
 
             {/* Duration */}
@@ -84,7 +104,9 @@ export default function IndividualCardDetails() {
                 Duration
               </span>
 
-              <span className="text-xs text-gray-200">25 min</span>
+              <span className="text-xs text-gray-200">
+                {workout.duration} min
+              </span>
             </div>
 
             {/* Calories */}
@@ -93,7 +115,9 @@ export default function IndividualCardDetails() {
                 Calories
               </span>
 
-              <span className="text-xs text-gray-200">180 kcal</span>
+              <span className="text-xs text-gray-200">
+                {workout.caloriesBurned} kcal
+              </span>
             </div>
 
             {/* Rating */}
@@ -102,45 +126,29 @@ export default function IndividualCardDetails() {
                 Rating
               </span>
 
-              <span className="text-xs text-gray-200">4.8</span>
+              <span className="text-xs text-gray-200">{workout.rating}</span>
             </div>
           </div>
 
           {/* ================= INSTRUCTIONS ================= */}
           <div className="mt-6">
-            <h2 className="text-sm font-bold uppercase tracking-wide">
+            <h2 className="text-sm font-bold uppercase tracking-wide font-inter">
               Instructions
             </h2>
+            <div>
+              <ol className="mt-4 space-y-3">
+                {workout.instructions.map((instruction, index) => (
+                  <li
+                    key={index}
+                    className="flex gap-3 text-xs leading-5 text-gray-400"
+                  >
+                    <span className="text-gray-500">{index + 1}.</span>
 
-            <ol className="mt-4 space-y-3">
-              <li className="flex gap-3 text-xs leading-5 text-gray-400">
-                <span className="text-gray-500">1.</span>
-                <span>
-                  Lie on the bench with eyes under the bar and feet planted.
-                </span>
-              </li>
-
-              <li className="flex gap-3 text-xs leading-5 text-gray-400">
-                <span className="text-gray-500">2.</span>
-                <span>
-                  Unrack with locked elbows and lower the bar to mid-chest.
-                </span>
-              </li>
-
-              <li className="flex gap-3 text-xs leading-5 text-gray-400">
-                <span className="text-gray-500">3.</span>
-                <span>
-                  Press up in a slight arc until elbows lock without bouncing.
-                </span>
-              </li>
-
-              <li className="flex gap-3 text-xs leading-5 text-gray-400">
-                <span className="text-gray-500">4.</span>
-                <span>
-                  Keep shoulder blades pinched and a natural arch in the back.
-                </span>
-              </li>
-            </ol>
+                    <span>{instruction}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
 
           {/* ================= BUTTONS ================= */}

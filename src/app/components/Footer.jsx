@@ -3,7 +3,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <div className="bg-[#0C0D10] py-8 px-[2.19%] flex justify-between items-center">
-      <div>
+      <div >
         <Image
           src="/brand-logo-left.png"
           alt="Footer logo"
