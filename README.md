@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏋️ FitLog — Workout Library
 
-## Getting Started
+---
 
-First, run the development server:
+## 🚀 Live Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🔗 **Live Demo:** Add your live website URL here
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🔗 **Repository:** Add your GitHub repository URL here
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📌 Project Overview
 
-## Learn More
+FitLog is a responsive workout library and planning application. Users can explore different workouts, view detailed information including equipment, difficulty, sets, reps, duration, calories, and ratings, then add exercises to their daily plan or save them for later.
+The application is designed to work smoothly across mobile, tablet, and desktop devices.
+The application provides a clean, dark-themed gym experience where users can browse a workout library, view detailed exercise information, add exercises to today's plan, and manage their saved workouts.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js** — React framework for building the application and handling routing
+- **React.js** — Building reusable UI components
+- **JavaScript (ES6+)** — Application logic and interactivity
+- **Tailwind CSS** — Responsive styling and modern UI design
+- **React Icons** — Icons for buttons, statistics, and navigation
+- **Git & GitHub** — Version control and project management
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ Key Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 1. 🏋️ Workout Library
+
+Browse a collection of workouts covering different major muscle groups.
+
+Each workout card displays:
+
+- Workout image
+- Muscle/category tags
+- Workout name
+- Equipment
+- Duration
+- Calories
+- Rating
+
+Clicking a workout opens its dedicated details page.
+
+---
+
+### 2. 📋 Today's Workout Plan
+
+Users can add workouts to **Today's Plan** and manage their daily routine.
+
+The plan includes:
+
+- Maximum of five lifts for today
+- Exercise count
+- Total workout minutes
+- Total calories
+- View Details option
+- Mark as Done functionality
+- Remove workout option
+
+The navbar automatically updates the Plan counter when workouts are added or removed.
+
+---
+
+### 3. ⭐ Save Workouts for Later
+
+Users can save workouts they are interested in completing later.
+
+The **Saved** counter in the navbar updates automatically, and saved workouts are accessible from the **My Plan** page.
+
+---
+
+### 4. 🔍 Detailed Workout Information
+
+Every workout has a dedicated details page containing:
+
+- Large workout image
+- Workout description
+- Category tags
+- Equipment
+- Difficulty
+- Sets and reps
+- Duration
+- Calories
+- Rating
+- Step-by-step instructions
+
+Users can also add the workout directly to today's plan or save it for later.
+
+---
+
+### 5. 📊 Live Workout Metrics
+
+The My Plan page provides real-time workout statistics:
+
+- **Exercises** — Number of planned workouts
+- **Minutes** — Total planned workout duration
+- **Calories** — Total calories across planned workouts
+
+These values update automatically as workouts are added or removed.
+
+
+
