@@ -1,5 +1,7 @@
+import AddToPlanButton from "../../components/buttons/AddToPlanButton";
+import SavedForLater from "../../components/buttons/SavedForLater";
 import Image from "next/image";
-import { CalendarDays, Bookmark } from "lucide-react";
+
 
 const getWorkoutDetails = async (id) => {
   try {
@@ -140,7 +142,7 @@ export default async function IndividualCardDetails({ params }) {
                 {workout.instructions.map((instruction, index) => (
                   <li
                     key={index}
-                    className="flex gap-3 text-xs leading-5 text-gray-400"
+                    className="flex gap-3 text-[14px] leading-5 text-gray-400"
                   >
                     <span className="text-gray-500">{index + 1}.</span>
 
@@ -153,15 +155,8 @@ export default async function IndividualCardDetails({ params }) {
 
           {/* ================= BUTTONS ================= */}
           <div className="mt-7 flex flex-wrap gap-3">
-            <button className="flex items-center gap-2 rounded-lg bg-lime-400 px-4 py-3 text-xs font-semibold text-black transition hover:bg-lime-300">
-              <CalendarDays size={15} />
-              Add to today&apos;s plan
-            </button>
-
-            <button className="flex items-center gap-2 rounded-lg border border-gray-700 px-4 py-3 text-xs font-medium text-gray-300 transition hover:bg-gray-800">
-              <Bookmark size={15} />
-              Save for later
-            </button>
+          <AddToPlanButton workout={workout} />
+          <SavedForLater workout={workout} />
           </div>
         </div>
       </div>

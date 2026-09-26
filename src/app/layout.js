@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import WorkoutsProvider from "./context/WorkoutsContext";
+import { Toaster } from "react-hot-toast";
 
 
 const geistSans = Geist({
@@ -27,10 +29,33 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Nav />
-        <hr className="border-gray-700" />
-        {children}
-        <Footer/>
+        <WorkoutsProvider>
+          <Nav />
+          <hr className="border-gray-700" />
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              // Default styling for all toasts
+              style: {
+                background: "#111827",
+                color: "#FFFFFF",
+                border: "1px solid #1F2937",
+                borderRadius: "12px",
+                fontSize: "14px",
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.5)",
+              },
+              // Success toast configuration (Neon Green style)
+              success: {
+                iconTheme: {
+                  primary: "#A3E635", // Neon green checkmark
+                  secondary: "#111827",
+                },
+              },
+            }}
+          />
+          <Footer />
+        </WorkoutsProvider>
       </body>
     </html>
   );

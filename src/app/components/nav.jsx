@@ -6,10 +6,10 @@ const Nav = () => {
   const links = (
     <>
       <li className="font-inter">
-        <a>Workouts</a>
+        <Link href="/">Workouts</Link>
       </li>
       <li className="font-inter">
-        <a>My Plan</a>
+        <Link href="/my-plan">My Plan</Link>
       </li>
     </>
   );
@@ -104,3 +104,29 @@ const Nav = () => {
 };
 
 export default Nav;
+
+
+
+
+
+<li>
+  <Link
+    href="/my-plan?tab=saved"
+    className={`px-2 sm:px-4 py-1.5 rounded-full text-[13px] sm:text-[14px] flex items-center transition-all ${
+      isSavedActive
+        ? "text-[#C2F800] bg-[#C2F800]/5"
+        : "text-[#9CA3AF] hover:text-white"
+    }`}
+  >
+    Saved
+    <div
+      className={`badge border-0 btn-circle ml-2 sm:ml-3 ${
+        isSavedActive
+          ? "bg-[#C2F800] text-black font-bold"
+          : "bg-[#2A2A2A] text-white"
+      }`}
+    >
+      {saved?.length || 0}
+    </div>
+  </Link>
+</li>;
