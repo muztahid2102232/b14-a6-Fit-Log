@@ -1,6 +1,6 @@
 "use client";
 
-import { WorkoutsContext } from "../context/WorkoutsContext";
+import { WorkoutsContext } from "@/context/WorkoutsContext";
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +13,7 @@ const MyPlan = () => {
     setPlan,
     saved = [],
     setSaved,
+    isLoading,
   } = useContext(WorkoutsContext) || {};
 
   const searchParams = useSearchParams();
@@ -25,25 +26,30 @@ const MyPlan = () => {
   // Default sorting is Duration
   const [sortBy, setSortBy] = useState("duration");
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#0C0D10]">
+        <span className="loading loading-spinner loading-sm text-[#C2F800]"></span>
+      </div>
+    );
+  }
+
   const currentList = activeTab === "plan" ? myPlan : saved;
 
   const totalMinutes = currentList.reduce(
     (acc, curr) => acc + (Number(curr.duration) || 0),
-    0
+    0,
   );
 
   const totalCalories = currentList.reduce(
     (acc, curr) => acc + (Number(curr.caloriesBurned) || 0),
-    0
+    0,
   );
 
   // Sort from highest to lowest
   const sortedList = [...currentList].sort((a, b) => {
     if (sortBy === "calories") {
-      return (
-        (Number(b.caloriesBurned) || 0) -
-        (Number(a.caloriesBurned) || 0)
-      );
+      return (Number(b.caloriesBurned) || 0) - (Number(a.caloriesBurned) || 0);
     }
 
     if (sortBy === "rating") {
@@ -118,15 +124,14 @@ const MyPlan = () => {
   };
 
   return (
-    <main className="min-h-screen bg-[#0C0D10] text-white px-6 md:px-16 py-10 font-sans">
-
+    <main className="min-h-screen bg-[#0C0D10] px-4 py-10 font-sans text-white sm:px-6 md:px-16">
       {/* Header Section */}
-      <div className="mb-8 container mx-auto">
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase mb-2">
+      <div className="container mx-auto mb-8">
+        <h1 className="mb-2 text-3xl font-extrabold uppercase tracking-wide md:text-4xl">
           {activeTab === "plan" ? "My Plan" : "Saved Workouts"}
         </h1>
 
-        <p className="text-gray-400 text-sm md:text-base">
+        <p className="text-sm text-gray-400 md:text-base">
           {activeTab === "plan"
             ? "Cap of five lifts for today. Finish them, then load more."
             : "Your bookmarked workouts for later."}
@@ -134,40 +139,34 @@ const MyPlan = () => {
       </div>
 
       {/* Metrics Summary Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 container mx-auto">
-
-        <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
-          <p className="text-gray-400 text-sm mb-1">Exercises</p>
+      <div className="container mx-auto mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+        <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
+          <p className="mb-1 text-sm text-gray-400">Exercises</p>
           <h3 className="text-4xl font-extrabold text-[#C2F800]">
             {currentList.length}
           </h3>
         </div>
 
-        <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
-          <p className="text-gray-400 text-sm mb-1">Minutes</p>
-          <h3 className="text-4xl font-extrabold text-white">
-            {totalMinutes}
-          </h3>
+        <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
+          <p className="mb-1 text-sm text-gray-400">Minutes</p>
+          <h3 className="text-4xl font-extrabold text-white">{totalMinutes}</h3>
         </div>
 
-        <div className="bg-[#1A1A1A] border border-[#2A2A2A] rounded-2xl p-6">
-          <p className="text-gray-400 text-sm mb-1">Calories</p>
+        <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
+          <p className="mb-1 text-sm text-gray-400">Calories</p>
           <h3 className="text-4xl font-extrabold text-white">
             {totalCalories}
           </h3>
         </div>
-
       </div>
 
       {/* Tabs & Sort Controls Row */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 container mx-auto">
-
-        <div className="flex bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-1">
-
+      <div className="container mx-auto mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <div className="flex rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
           {/* Today's Plan */}
           <Link
             href="/my-plan?tab=plan"
-            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all ${
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all sm:px-6 ${
               activeTab === "plan"
                 ? "bg-[#2A2A2A] text-white shadow-sm"
                 : "text-gray-400 hover:text-white"
@@ -179,7 +178,7 @@ const MyPlan = () => {
           {/* Saved */}
           <Link
             href="/my-plan?tab=saved"
-            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all ${
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all sm:px-6 ${
               activeTab === "saved"
                 ? "bg-[#2A2A2A] text-white shadow-sm"
                 : "text-gray-400 hover:text-white"
@@ -187,47 +186,39 @@ const MyPlan = () => {
           >
             Saved
           </Link>
-
         </div>
 
         {/* Sort */}
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="flex w-full items-center justify-between gap-2 text-sm text-gray-400 sm:w-auto sm:justify-end">
           <span>Sort By</span>
 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-2 rounded-xl text-white font-medium cursor-pointer outline-none"
+            className="cursor-pointer rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] px-3 py-2 font-medium text-white outline-none sm:px-4"
           >
             <option value="duration">Duration</option>
             <option value="calories">Calories</option>
             <option value="rating">Rating</option>
           </select>
         </div>
-
       </div>
 
       {/* Conditional Rendering based on activeTab */}
       <div className="container mx-auto">
-
         {sortedList.length > 0 ? (
-
           <div className="space-y-4">
-
             {sortedList.map((item) => {
-
               const isDone = doneWorkouts.includes(item.id);
 
               return (
                 <div
                   key={item.id}
-                  className="bg-[#16181E] border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                  className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-gray-800 bg-[#16181E] p-4 sm:p-5 md:flex-row md:items-center"
                 >
-
                   {/* Left: Image & Info */}
-                  <div className="flex items-center gap-4">
-
-                    <div className="relative w-24 h-16 rounded-xl overflow-hidden shrink-0">
+                  <div className="flex w-full items-center gap-3 sm:gap-4 md:w-auto">
+                    <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-xl sm:w-24">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -236,91 +227,68 @@ const MyPlan = () => {
                       />
                     </div>
 
-                    <div>
-
-                      <h3 className="text-white font-bold uppercase tracking-wider">
+                    <div className="min-w-0">
+                      <h3 className="truncate font-bold uppercase tracking-wider text-white sm:text-base">
                         {item.name}
                       </h3>
 
-                      <p className="text-gray-400 text-xs mb-2">
+                      <p className="mb-2 text-xs text-gray-400">
                         {item.equipment || "Bodyweight"}
                       </p>
 
-                      <div className="flex flex-wrap gap-4 text-xs text-gray-300">
+                      <div className="flex flex-wrap gap-2 text-xs text-gray-300 sm:gap-4">
+                        <span>⏱️ {item.duration} min</span>
 
-                        <span>
-                          ⏱️ {item.duration} min
-                        </span>
+                        <span>🔥 {item.caloriesBurned} kcal</span>
 
-                        <span>
-                          🔥 {item.caloriesBurned} kcal
-                        </span>
-
-                        <span>
-                          ⭐ {item.rating}
-                        </span>
-
+                        <span>⭐ {item.rating}</span>
                       </div>
-
                     </div>
                   </div>
 
                   {/* Right: Action Buttons */}
-                  <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-
+                  <div className="flex w-full items-center justify-end gap-2 sm:gap-3 md:w-auto">
                     <Link
-                      href={`../IndividualCardDetails/${item.id}`}
-                      className="border border-gray-700 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-gray-800 transition-colors"
+                      href={`/workouts/${item.id}`}
+                      className="rounded-xl border border-gray-700 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-gray-800 sm:px-4"
                     >
                       View Details
                     </Link>
 
                     {activeTab === "plan" && (
-
                       <button
                         onClick={() => handleToggleDone(item.id)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer ${
+                        className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold transition-colors sm:px-4 ${
                           isDone
-                            ? "bg-gray-800 text-[#C2F800] border border-[#C2F800]/50"
+                            ? "border border-[#C2F800]/50 bg-gray-800 text-[#C2F800]"
                             : "bg-[#C2F800] text-black hover:bg-[#b0df00]"
                         }`}
                       >
-
                         {isDone && <span>✓</span>}
 
                         {isDone ? "Done" : "Mark as Done"}
-
                       </button>
-
                     )}
 
                     <button
                       onClick={() => handleRemoveFromPlan(item.id)}
-                      className="text-gray-400 hover:text-red-500 p-2 transition-colors cursor-pointer"
+                      className="cursor-pointer p-2 text-gray-400 transition-colors hover:text-red-500"
                       title="Remove"
                     >
                       ✕
                     </button>
-
                   </div>
-
                 </div>
               );
             })}
-
           </div>
-
         ) : (
-
-          <div className="border border-dashed border-[#2A2A2A] rounded-2xl p-16 flex flex-col items-center justify-center text-center bg-[#161616]/50">
-
-            <h2 className="text-xl md:text-2xl font-bold uppercase tracking-wider mb-2 text-white">
-              {activeTab === "plan"
-                ? "Nothing Here Yet"
-                : "No Saved Workouts"}
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#2A2A2A] bg-[#161616]/50 p-10 text-center sm:p-16">
+            <h2 className="mb-2 text-xl font-bold uppercase tracking-wider text-white md:text-2xl">
+              {activeTab === "plan" ? "Nothing Here Yet" : "No Saved Workouts"}
             </h2>
 
-            <p className="text-gray-400 text-sm mb-6 max-w-sm">
+            <p className="mb-6 max-w-sm text-sm text-gray-400">
               {activeTab === "plan"
                 ? "Browse the library and add a lift to get today moving."
                 : "Browse workouts and save your favorites for later."}
@@ -328,17 +296,13 @@ const MyPlan = () => {
 
             <Link
               href="/workouts"
-              className="bg-[#C2F800] text-black font-bold px-6 py-3 rounded-xl hover:bg-[#b0df00] transition-colors"
+              className="rounded-xl bg-[#C2F800] px-6 py-3 font-bold text-black transition-colors hover:bg-[#b0df00]"
             >
               Go to workouts
             </Link>
-
           </div>
-
         )}
-
       </div>
-
     </main>
   );
 };
