@@ -112,7 +112,7 @@ const Navbar = () => {
               className="btn btn-ghost px-0 text-xl hover:bg-transparent"
             >
               <Image
-                src="/logo.png"
+                src="/logo-nav.png"
                 alt="FitLog Logo"
                 width={28}
                 height={28}

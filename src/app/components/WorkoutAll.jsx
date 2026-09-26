@@ -1,7 +1,9 @@
 import React from "react";
 import WorkoutCard from "./WorkoutCard";
 const WorkoutAllPromise = async () => {
-  const response = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  const response = await fetch(
+    " https://api.api-store.workers.dev/api/fitlog",
+  );
   return response.json();
 };
 const WorkoutAll = async () => {

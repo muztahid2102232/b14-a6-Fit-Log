@@ -6,7 +6,7 @@ import Image from "next/image";
 const getWorkoutDetails = async (id) => {
   try {
     const response = await fetch(
-      `https://api.abcz.workers.dev/api/fitlog/${id}`,
+      ` https://api.api-store.workers.dev/api/fitlog/${id}`,
     );
     const data = await response.json();
     return data;

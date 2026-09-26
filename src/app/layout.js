@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import WorkoutsProvider from "./context/WorkoutsContext";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 
 
 const geistSans = Geist({
@@ -30,8 +31,9 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <WorkoutsProvider>
-          <Nav />
-          <hr className="border-gray-700" />
+          <Suspense fallback={null}>
+            <Nav />
+          </Suspense>
           {children}
           <Toaster
             position="top-center"

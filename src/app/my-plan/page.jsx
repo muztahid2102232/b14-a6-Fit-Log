@@ -1,13 +1,13 @@
 "use client";
 
-import { WorkoutsContext } from "@/context/WorkoutsContext";
-import React, { useContext, useState } from "react";
+import { WorkoutsContext } from "../context/WorkoutsContext";
+import React, { Suspense, useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-const MyPlan = () => {
+const MyPlanContent = () => {
   const {
     myPlan = [],
     setPlan,
@@ -38,18 +38,21 @@ const MyPlan = () => {
 
   const totalMinutes = currentList.reduce(
     (acc, curr) => acc + (Number(curr.duration) || 0),
-    0,
+    0
   );
 
   const totalCalories = currentList.reduce(
     (acc, curr) => acc + (Number(curr.caloriesBurned) || 0),
-    0,
+    0
   );
 
   // Sort from highest to lowest
   const sortedList = [...currentList].sort((a, b) => {
     if (sortBy === "calories") {
-      return (Number(b.caloriesBurned) || 0) - (Number(a.caloriesBurned) || 0);
+      return (
+        (Number(b.caloriesBurned) || 0) -
+        (Number(a.caloriesBurned) || 0)
+      );
     }
 
     if (sortBy === "rating") {
@@ -125,6 +128,7 @@ const MyPlan = () => {
 
   return (
     <main className="min-h-screen bg-[#0C0D10] px-4 py-10 font-sans text-white sm:px-6 md:px-16">
+
       {/* Header Section */}
       <div className="container mx-auto mb-8">
         <h1 className="mb-2 text-3xl font-extrabold uppercase tracking-wide md:text-4xl">
@@ -140,6 +144,7 @@ const MyPlan = () => {
 
       {/* Metrics Summary Row */}
       <div className="container mx-auto mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
           <p className="mb-1 text-sm text-gray-400">Exercises</p>
           <h3 className="text-4xl font-extrabold text-[#C2F800]">
@@ -149,7 +154,9 @@ const MyPlan = () => {
 
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
           <p className="mb-1 text-sm text-gray-400">Minutes</p>
-          <h3 className="text-4xl font-extrabold text-white">{totalMinutes}</h3>
+          <h3 className="text-4xl font-extrabold text-white">
+            {totalMinutes}
+          </h3>
         </div>
 
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
@@ -158,11 +165,14 @@ const MyPlan = () => {
             {totalCalories}
           </h3>
         </div>
+
       </div>
 
       {/* Tabs & Sort Controls Row */}
       <div className="container mx-auto mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+
         <div className="flex rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
+
           {/* Today's Plan */}
           <Link
             href="/my-plan?tab=plan"
@@ -186,6 +196,7 @@ const MyPlan = () => {
           >
             Saved
           </Link>
+
         </div>
 
         {/* Sort */}
@@ -202,13 +213,18 @@ const MyPlan = () => {
             <option value="rating">Rating</option>
           </select>
         </div>
+
       </div>
 
       {/* Conditional Rendering based on activeTab */}
       <div className="container mx-auto">
+
         {sortedList.length > 0 ? (
+
           <div className="space-y-4">
+
             {sortedList.map((item) => {
+
               const isDone = doneWorkouts.includes(item.id);
 
               return (
@@ -249,7 +265,7 @@ const MyPlan = () => {
                   {/* Right: Action Buttons */}
                   <div className="flex w-full items-center justify-end gap-2 sm:gap-3 md:w-auto">
                     <Link
-                      href={`/workouts/${item.id}`}
+                      href={`../IndividualCardDetails/${item.id}`}
                       className="rounded-xl border border-gray-700 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-gray-800 sm:px-4"
                     >
                       View Details
@@ -281,11 +297,17 @@ const MyPlan = () => {
                 </div>
               );
             })}
+
           </div>
+
         ) : (
+
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#2A2A2A] bg-[#161616]/50 p-10 text-center sm:p-16">
+
             <h2 className="mb-2 text-xl font-bold uppercase tracking-wider text-white md:text-2xl">
-              {activeTab === "plan" ? "Nothing Here Yet" : "No Saved Workouts"}
+              {activeTab === "plan"
+                ? "Nothing Here Yet"
+                : "No Saved Workouts"}
             </h2>
 
             <p className="mb-6 max-w-sm text-sm text-gray-400">
@@ -295,16 +317,32 @@ const MyPlan = () => {
             </p>
 
             <Link
-              href="/workouts"
+              href="/"
               className="rounded-xl bg-[#C2F800] px-6 py-3 font-bold text-black transition-colors hover:bg-[#b0df00]"
             >
               Go to workouts
             </Link>
+
           </div>
+
         )}
+
       </div>
+
     </main>
   );
 };
 
-export default MyPlan;
+export default function MyPlan() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center bg-[#0C0D10]">
+          <span className="loading loading-spinner loading-sm text-[#C2F800]"></span>
+        </div>
+      }
+    >
+      <MyPlanContent />
+    </Suspense>
+  );
+}
