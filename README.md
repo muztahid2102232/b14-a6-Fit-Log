@@ -4,9 +4,9 @@
 
 ## 🚀 Live Project
 
-🔗 **Live Demo:** Add your live website URL here
+🔗 **Live Demo:** https://b14-a6-filog-project.vercel.app/
 
-🔗 **Repository:** Add your GitHub repository URL here
+🔗 **Repository:** https://github.com/muztahid2102232/b14-a6-Fit-Log
 
 ---
 
