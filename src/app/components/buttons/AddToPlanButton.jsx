@@ -12,29 +12,30 @@ const AddToPlanButton = ({ workout }) => {
     // console.log('add to button', workout )
 
     myPlan.filter((item) => item.id === workout.id).length > 0
-      ? toast("Already locked into your plan!", {
+      ? toast.error("Already added to today's plan", {
           icon: "⚠️",
           style: {
-            background: "#1E1E1E",
-            color: "#EF4444",
-            border: "1px solid #EF4444",
+            background: "#1A1A1A",
+            color: "#C2F800",
+            border: "1px solid #C2F800",
+            borderRadius: "12px",
+            padding: "12px 16px",
           },
         })
-      : (
-       setPlan?.([...myPlan, workout]),
-        toast.success("Successfully added to plan! 💪", {
+      : (setPlan?.([...myPlan, workout]),
+        toast.success("Successfully added to today's plan", {
           style: {
-            background: '#1E1E1E',
-            color: '#F59E0B',
-            border: '1px solid #F59E0B',
-            fontWeight: '600',
+            background: "#1A1A1A",
+            color: "#C2F800",
+            border: "1px solid #C2F800",
+            borderRadius: "12px",
+            padding: "12px 16px",
           },
           iconTheme: {
-            primary: '#F59E0B',
-            secondary: '#1E1E1E',
+            primary: "#F59E0B",
+            secondary: "#1E1E1E",
           },
-        })
-      )
+        }));
   };
 
   return (

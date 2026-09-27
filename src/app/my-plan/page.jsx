@@ -38,21 +38,18 @@ const MyPlanContent = () => {
 
   const totalMinutes = currentList.reduce(
     (acc, curr) => acc + (Number(curr.duration) || 0),
-    0
+    0,
   );
 
   const totalCalories = currentList.reduce(
     (acc, curr) => acc + (Number(curr.caloriesBurned) || 0),
-    0
+    0,
   );
 
   // Sort from highest to lowest
   const sortedList = [...currentList].sort((a, b) => {
     if (sortBy === "calories") {
-      return (
-        (Number(b.caloriesBurned) || 0) -
-        (Number(a.caloriesBurned) || 0)
-      );
+      return (Number(b.caloriesBurned) || 0) - (Number(a.caloriesBurned) || 0);
     }
 
     if (sortBy === "rating") {
@@ -69,12 +66,12 @@ const MyPlanContent = () => {
       setPlan?.(updatedPlan);
       setDoneWorkouts(doneWorkouts.filter((doneId) => doneId !== id));
 
-      toast.error("Workout removed from your plan", {
+      toast.error("Workout is removed from today's plan", {
         duration: 2500,
         style: {
           background: "#1A1A1A",
-          color: "#F3F4F6",
-          border: "1px solid #EF4444",
+          color: "#C2F800",
+          border: "1px solid #C2F800",
           borderRadius: "12px",
           padding: "12px 16px",
         },
@@ -83,12 +80,12 @@ const MyPlanContent = () => {
       const updatedSaved = saved.filter((item) => item.id !== id);
       setSaved?.(updatedSaved);
 
-      toast.error("Workout removed from saved", {
+      toast.error("Workout is removed from saved", {
         duration: 2500,
         style: {
           background: "#1A1A1A",
-          color: "#F3F4F6",
-          border: "1px solid #EF4444",
+          color: "#C2F800",
+          border: "1px solid #C2F800",
           borderRadius: "12px",
           padding: "12px 16px",
         },
@@ -100,12 +97,12 @@ const MyPlanContent = () => {
     if (doneWorkouts.includes(id)) {
       setDoneWorkouts(doneWorkouts.filter((doneId) => doneId !== id));
 
-      toast("Workout marked as not done", {
+      toast.error("Workout is marked as not done", {
         duration: 2000,
         style: {
           background: "#1A1A1A",
-          color: "#D1D5DB",
-          border: "1px solid #374151",
+          color: "#C2F800",
+          border: "1px solid #C2F800",
           borderRadius: "12px",
           padding: "12px 16px",
         },
@@ -113,7 +110,7 @@ const MyPlanContent = () => {
     } else {
       setDoneWorkouts([...doneWorkouts, id]);
 
-      toast.success("Workout marked as done", {
+      toast.success("Workout is marked as done", {
         duration: 2500,
         style: {
           background: "#1A1A1A",
@@ -128,23 +125,21 @@ const MyPlanContent = () => {
 
   return (
     <main className="min-h-screen bg-[#0C0D10] px-4 py-10 font-sans text-white sm:px-6 md:px-16">
-
       {/* Header Section */}
       <div className="container mx-auto mb-8">
         <h1 className="mb-2 text-3xl font-extrabold uppercase tracking-wide md:text-4xl">
-          {activeTab === "plan" ? "My Plan" : "Saved Workouts"}
+          {activeTab === "plan" ? "My Plan" : "My Plan"}
         </h1>
 
         <p className="text-sm text-gray-400 md:text-base">
           {activeTab === "plan"
             ? "Cap of five lifts for today. Finish them, then load more."
-            : "Your bookmarked workouts for later."}
+            : "Cap of five lifts for today. Finish them, then load more."}
         </p>
       </div>
 
       {/* Metrics Summary Row */}
       <div className="container mx-auto mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
-
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
           <p className="mb-1 text-sm text-gray-400">Exercises</p>
           <h3 className="text-4xl font-extrabold text-[#C2F800]">
@@ -154,9 +149,7 @@ const MyPlanContent = () => {
 
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
           <p className="mb-1 text-sm text-gray-400">Minutes</p>
-          <h3 className="text-4xl font-extrabold text-white">
-            {totalMinutes}
-          </h3>
+          <h3 className="text-4xl font-extrabold text-white">{totalMinutes}</h3>
         </div>
 
         <div className="rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-5 sm:p-6">
@@ -165,14 +158,11 @@ const MyPlanContent = () => {
             {totalCalories}
           </h3>
         </div>
-
       </div>
 
       {/* Tabs & Sort Controls Row */}
       <div className="container mx-auto mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-
         <div className="flex rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
-
           {/* Today's Plan */}
           <Link
             href="/my-plan?tab=plan"
@@ -196,7 +186,6 @@ const MyPlanContent = () => {
           >
             Saved
           </Link>
-
         </div>
 
         {/* Sort */}
@@ -213,18 +202,13 @@ const MyPlanContent = () => {
             <option value="rating">Rating</option>
           </select>
         </div>
-
       </div>
 
       {/* Conditional Rendering based on activeTab */}
       <div className="container mx-auto">
-
         {sortedList.length > 0 ? (
-
           <div className="space-y-4">
-
             {sortedList.map((item) => {
-
               const isDone = doneWorkouts.includes(item.id);
 
               return (
@@ -253,11 +237,53 @@ const MyPlanContent = () => {
                       </p>
 
                       <div className="flex flex-wrap gap-2 text-xs text-gray-300 sm:gap-4">
-                        <span>⏱️ {item.duration} min</span>
+                        <span className="flex">
+                          {" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                          >
+                            <circle cx="12" cy="12" r="9" />
+                            <path strokeLinecap="round" d="M12 7v5l3 2" />
+                          </svg>{" "}
+                          {item.duration} min
+                        </span>
 
-                        <span>🔥 {item.caloriesBurned} kcal</span>
+                        <span className="flex">
+                          {" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M13.5 2.5c.3 4.2-2.8 5.5-2.8 8.1 0 1.3.8 2.4 2 2.9-.2-2 1.1-3.4 2.4-4.7.9 1.5 1.9 3.3 1.9 5.5 0 3.1-2.3 5.2-5.3 5.2-3.2 0-5.7-2.4-5.7-5.8 0-3.5 2.3-6.1 4.5-8.3-.2 2.5.4 3.6 1.1 4.4.4-2.3 1.7-4.4 1.9-7.3Z" />
+                          </svg>
+                          {item.caloriesBurned} kcal
+                        </span>
 
-                        <span>⭐ {item.rating}</span>
+                        <span className="flex">
+                          {" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"
+                            />
+                          </svg>{" "}
+                          {item.rating}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -297,23 +323,18 @@ const MyPlanContent = () => {
                 </div>
               );
             })}
-
           </div>
-
         ) : (
-
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#2A2A2A] bg-[#161616]/50 p-10 text-center sm:p-16">
-
             <h2 className="mb-2 text-xl font-bold uppercase tracking-wider text-white md:text-2xl">
-              {activeTab === "plan"
-                ? "Nothing Here Yet"
-                : "No Saved Workouts"}
+              {activeTab === "plan" ? "Nothing Here Yet" : "Nothing Here Yet"}
             </h2>
 
             <p className="mb-6 max-w-sm text-sm text-gray-400">
               {activeTab === "plan"
                 ? "Browse the library and add a lift to get today moving."
-                : "Browse workouts and save your favorites for later."}
+                : "Browse the library and add a lift to get today moving."
+                }
             </p>
 
             <Link
@@ -322,13 +343,9 @@ const MyPlanContent = () => {
             >
               Go to workouts
             </Link>
-
           </div>
-
         )}
-
       </div>
-
     </main>
   );
 };

@@ -1,18 +1,20 @@
 import React from "react";
 import WorkoutCard from "./WorkoutCard";
+
 const WorkoutAllPromise = async () => {
-  const response = await fetch(
-    " https://api.api-store.workers.dev/api/fitlog",
-  );
+  const response = await fetch("https://api.api-store.workers.dev/api/fitlog");
   return response.json();
 };
+
 const WorkoutAll = async () => {
   const workouts = await WorkoutAllPromise();
 
   return (
-    <div className="bg-[#0C0D10] py-8 px-[2.19%] grid grid-cols-3 gap-6">
+    <div className="bg-[#0C0D10] py-6 sm:py-8 px-4 sm:px-[2.19%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {workouts.map((workout) => (
-        <WorkoutCard key={workout.id} workout={workout} />
+        <div key={workout.id} className="w-full">
+          <WorkoutCard workout={workout} />
+        </div>
       ))}
     </div>
   );

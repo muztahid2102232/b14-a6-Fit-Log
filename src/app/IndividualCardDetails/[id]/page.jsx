@@ -20,7 +20,7 @@ export default async function IndividualCardDetails({ params }) {
   const workout = await getWorkoutDetails(id);
 
   return (
-    <main className="min-h-screen bg-[#0d1015] px-5 py-8 text-white md:px-10 lg:px-16">
+    <main className="min-h-screen bg-[#0C0D10] px-5 py-8 text-white md:px-10 lg:px-16">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2 lg:gap-10">
         {/*LEFT: IMAGE*/}
         <div className="overflow-hidden rounded-xl">
@@ -155,8 +155,8 @@ export default async function IndividualCardDetails({ params }) {
 
           {/* ================= BUTTONS ================= */}
           <div className="mt-7 flex flex-wrap gap-3">
-          <AddToPlanButton workout={workout} />
-          <SavedForLater workout={workout} />
+            <AddToPlanButton workout={workout} />
+            <SavedForLater workout={workout} />
           </div>
         </div>
       </div>

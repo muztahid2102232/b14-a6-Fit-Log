@@ -6,23 +6,35 @@ import { Bookmark } from "lucide-react";
 import toast from "react-hot-toast";
 
 const SavedForLater = ({ workout }) => {
-  // কন্টেক্সট থেকে saved এবং setSaved নিয়ে আসা
   const { saved = [], setSaved } = useContext(WorkoutsContext) || {};
 
   const handleSaveForLater = () => {
-    // সহজ চেক: আইডি দিয়ে দেখা এটি আগে থেকেই সেভ করা আছে কি না
     const isAlreadySaved = saved.some((item) => item.id === workout.id);
 
     if (isAlreadySaved) {
-      toast("This is already saved!", { icon: "ℹ️" });
+      toast.error("This is already saved!", {
+        style: {
+          background: "#1A1A1A",
+          color: "#C2F800",
+          border: "1px solid #C2F800",
+          borderRadius: "12px",
+          padding: "12px 16px",
+        },
+      });
       return;
     }
 
-    // আগের লিস্টের সাথে নতুন ওয়ার্কআউটটি যুক্ত করা
     setSaved?.([...saved, workout]);
     
-    toast("This is added to save later", {
-      icon: "📌",
+    toast("This is added to saved", {
+      icon: "✔",
+      style: {
+        background: "#1A1A1A",
+        color: "#C2F800",
+        border: "1px solid #C2F800",
+        borderRadius: "12px",
+        padding: "12px 16px",
+      },
     });
   };
 
